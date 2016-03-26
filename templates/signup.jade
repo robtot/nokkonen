@@ -1,0 +1,36 @@
+doctype html
+html.no-js(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="x-ua-compatible", content="ie=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Nokkonen
+    link(rel="stylesheet", href="css/app.css")
+  body
+
+  div.row
+    div.columns.small-12(style="text-align: center;")
+      h1 Nokkonen Signup
+
+  div.row
+    div.columns.small-12(style="text-align:center;")
+      p= message
+
+  form(method="post")
+    div.row
+      div.columns.small-12.medium-6
+        label username
+          input(type="text", name="username", placeholder="username")
+      div.columns.small-12.medium-6
+        label password
+          input(type="password", name="password")
+    div.row
+      div.columns.small-6(style="text-align:right;")
+        button.button.large.success(type="submit") Signup
+      div.columns.small-6
+        a.button.large.secondary(href="/login") Back
+
+  script(src="bower_components/jquery/dist/jquery.js")
+  script(src="bower_components/what-input/what-input.js")
+  script(src="bower_components/foundation-sites/dist/foundation.js")
+  script(src="js/app.js")

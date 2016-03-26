@@ -1,0 +1,47 @@
+doctype html
+html.no-js(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="x-ua-compatible", content="ie=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Nokkonen
+    link(rel="stylesheet", href="css/app.css")
+  body
+
+    div.top-bar#nokkonen-top-bar
+      div.top-bar-left
+        ul.menu.dropdown(data-dropdown-menu="data-dropdown-menu")
+          li.hide-for-small-only
+            a(href="/")
+              strong Nokkonen
+          li
+            a(href="#") Browse
+          li
+            a(href="#") Your Recipes
+            ul.menu.vertical
+              li
+                a(href="#") View
+              li
+                a(href="/newrecipe") New
+          li
+            a(href="#") Account
+            ul.menu.vertical
+              li
+                a(href="#") Manage
+              li
+                a(href="/logout") Logout
+      div.top-bar-right
+        ul.menu
+          li
+            input(type="search", placeholder="search recipes")
+          li
+            button.button(type="button") Search
+
+    block content
+
+    block scripts
+
+    script(src="bower_components/jquery/dist/jquery.js")
+    script(src="bower_components/what-input/what-input.js")
+    script(src="bower_components/foundation-sites/dist/foundation.js")
+    script(src="js/app.js")
