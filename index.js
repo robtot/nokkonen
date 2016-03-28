@@ -33,10 +33,7 @@ app.use(passport.session());
 app.use(flash());
 
 app.get('/login', function(req, res) {
-  var flashMessage = req.flash('loginMessage');
-  console.log("loggingin");
-  console.log(flashMessage);
-  res.render('landing', { message: flashMessage });
+  res.render('landing', { message: req.flash('loginMessage') });
 });
 
 app.get('/signup', function(req, res) {
@@ -66,7 +63,7 @@ app.post('/newrecipe', isLoggedIn, storage.addRecipe, function(req, res) {
 });
 
 app.get('/', isLoggedIn, function(req, res) {
-  res.render('index');
+  res.render('index', { username: req.user.username });
 });
 
 //render form for submitting new recipe

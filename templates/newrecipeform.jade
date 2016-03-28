@@ -1,17 +1,6 @@
 extends layout.jade
-block scripts
-  script(src='scripts/recipeform.js')
 block content
-  h1 New Recipe
-  form(enctype="application/json", name="newrecipe", action="newrecipe", method="post")
-
-    input(type="hidden", name="version", value="0")
-    div#ingredients
-      p ingredients
-      input(type="text" name="ingredient")
-    input(type="button", value="new ingredient" onclick="addIngredient()")
-    div#instructions
-      p instructions
-      textarea(name="instructions", cols="50", rows="20")
-    input(type="button", value="new instruction" onclick="addInstruction()")
-    input(type="submit", value="create")
+  form(action="newrecipe", method="post")
+    div.row
+      div.small-12.columns
+        input.nokkonenheader(type="text", placeholder="Recipe Title")

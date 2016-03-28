@@ -27,8 +27,8 @@ module.exports = function(passport) {
           return done(null, false, req.flash('signupMessage', 'That username is already taken'));
         } else {
           var newUser = new User();
-          newUser.local.username = username;
-          newUser.local.password = newUser.generateHash(password);
+          newUser.username = username;
+          newUser.password = newUser.generateHash(password);
           newUser.save(function(err) {
             if (err) throw err;
             return done(null, newUser);
@@ -49,7 +49,7 @@ module.exports = function(passport) {
   },
   function(req, username, password, done) {
     console.log("localStrategy1");
-    User.findOne({ 'local.username': username }, function(err, user) {
+    User.findOne({ 'username': username }, function(err, user) {
       console.log("localStrategy2");
       if (err) return done(err);
       if (!user) return done(null, false, req.flash('loginMessage', 'No user found.'));
