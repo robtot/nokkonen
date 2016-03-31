@@ -24,6 +24,7 @@ app.use(morgan('dev'));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
+app.use('/angular', express.static(path.join(__dirname, 'node_modules', 'angular')))
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: false}));
 
