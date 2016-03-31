@@ -1,6 +1,53 @@
 extends layout.jade
+
+block scripts
+  script(src="/angular/angular.js")
+  script(src="/js/newrecipeapp.js")
+
 block content
-  form(action="newrecipe", method="post")
-    div.row
-      div.small-12.columns
-        input.nokkonenheader(type="text", placeholder="Recipe Title")
+  div(ng-app="NewRecipeApp" ng-controller="RecipeController as recipeCtrl")
+    form(novalidate="novalidate")
+
+      div.row
+        div.small-12.columns
+          input.nokkonenheader(type="text", placeholder="Recipe Title" ng-model="recipeCtrl.recipe.name")
+
+      div.row
+        div.small-12.columns
+          label recipe type
+            select.nokkonenselect(ng-model="recipeCtrl.recipe.type")
+              option(value="meal") meal
+              option(value="snack") snack
+              option(value="dessert") dessert
+              option(value="accompaniment") accompaniment
+
+      div.row
+        div.small-12.columns
+          label description
+            textarea.nokkonentextarea(placeholder="description", rows="3" ng-model="recipeCtrl.recipe.description")
+
+      div.row
+        div.small-12.columns
+          label preparation time
+          div.row
+            div.small-6.columns
+              label hours
+                input(type="number", value="0", ng-model="recipeCtrl.recipe.hours")
+            div.small-6.columns
+              label minutes
+                input(type="number", value="5", ng-model="recipeCtrl.recipe.minutes")
+
+      div.row(ng-controller="InstructionController as instructionCtrl")
+        div.small-12.columns
+          label instructions
+          button.button(type="button", ng-click="instructionCtrl.setTab(1)") basic
+          button.button(type="button", ng-click="instructionCtrl.setTab(2)") steps
+        div.small-12.columns(ng-show="instructionCtrl.isSet(1)")
+          textarea.nokkonentextarea(placeholder="instruction", rows="3")
+        div.small-12.columns(ng-show="instructionCtrl.isSet(2)")
+          span steps
+
+
+      div.row
+        div.small-12.columns
+          button.button.success(type="button" ng-click="recipeCtrl.logRecipe()") Result
