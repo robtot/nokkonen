@@ -1,0 +1,43 @@
+extends layout.jade
+
+block scripts
+  script(src="/angular/angular.js")
+  script(src="/js/recipeapp.js")
+
+block content
+  div(ng-app="RecipeApp" ng-init="recipe = #{recipe}")
+    div(ng-controller="RecipeController as recipeCtrl")
+      div.row
+        div.small-12.columns.nokkonenheader
+          h1 {{ recipe.name }}
+        div.small-12.columns.recipeCenter
+          p {{ recipe.type }} by {{ recipe.owner }}
+        div.small-12.medium-6.columns
+          label
+            span.nokkonenlabel description
+            p {{ recipe.description }}
+        div.small-6.medium-3.columns
+          label
+            span.nokkonenlabel preparation time
+            p {{ recipe.hours }} hours {{ recipe.minutes }} minutes
+        div.small-6.medium-3.columns
+          label(ng-show="recipeCtrl.isComponent")
+            span.nokkonenlabel amount
+            p  {{recipe.amount}} {{recipe.unit}}
+          label(ng-show="!recipeCtrl.isComponent")
+            span.nokkonenlabel serving
+            p  {{recipe.serving}}
+        div.small-12.medium-6.columns
+          label
+            span.nokkonenlabel ingredients
+            div(ng-repeat="ingredient in recipe.ingredients")
+              p {{ingredient.name}} {{ingredient.amount}} {{ingredient.unit}}
+        div.small-12.medium-6.columns
+          label
+            span.nokkonenlabel instructions
+            div(ng-show="recipeCtrl.isInstructionType('basic')")
+              p {{recipe.instruction}}
+            div(ng-show="recipeCtrl.isInstructionType('steps')")
+              div(ng-repeat="step in recipe.instruction track by $index")
+                label {{$index + 1}}
+                  p {{step}}

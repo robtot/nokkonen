@@ -58,6 +58,15 @@ app.post('/login', passport.authenticate('local-login', {
   failureFlash: true
 }));
 
+//display recipe
+app.get('/recipe/:owner/:recipename', isLoggedIn, storage.getRecipe, function(req, res) {
+  console.log(req.recipe);
+  if (req.recipe == null) {
+    res.send("no recipe matching username "+req.params.owner+" and recipe name "+req.params.recipename+" found.");
+  }
+  res.render('recipe', {recipe: JSON.stringify(req.recipe)});
+});
+
 //create new recipe from json in body of post request
 app.post('/newrecipe', isLoggedIn, storage.addRecipe, function(req, res) {
   res.send("recipe added");
@@ -75,6 +84,10 @@ app.get('/newrecipe', isLoggedIn, function(req, res) {
 //query for recipes based on atrributes entered in get url
 app.get('/findrecipe', isLoggedIn, validate.recipeQuery, storage.searchRecipe, function(req, res) {
   res.json(req.documents);
+});
+
+app.get('/recipes/:name', isLoggedIn, storage.getRecipesByName, function(req, res) {
+  
 });
 
 function isLoggedIn(req, res, next) {

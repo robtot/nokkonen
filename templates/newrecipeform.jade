@@ -5,49 +5,106 @@ block scripts
   script(src="/js/newrecipeapp.js")
 
 block content
-  div(ng-app="NewRecipeApp" ng-controller="RecipeController as recipeCtrl")
+  div(ng-app="NewRecipeApp" ng-controller="EditRecipeController as recipeCtrl")
     form(novalidate="novalidate")
 
       div.row
         div.small-12.columns
-          input.nokkonenheader(type="text", placeholder="Recipe Title" ng-model="recipeCtrl.recipe.name")
+          label
+            span.nokkonenlabel title
+            input.nokkonenheader(type="text" placeholder="Recipe Title" ng-model="name")
 
       div.row
-        div.small-12.columns
-          label recipe type
-            select.nokkonenselect(ng-model="recipeCtrl.recipe.type")
+        div.small-12.medium-3.columns
+          label
+            span.nokkonenlabel recipe type
+            select.nokkonenselect(ng-model="type")
               option(value="meal") meal
               option(value="snack") snack
               option(value="dessert") dessert
               option(value="accompaniment") accompaniment
+              option(value="component") component
+        div.small-12.medium-3.columns
+          div(ng-show="!isComponent()")
+            label
+              span.nokkonenlabel serving
+              input(type="number", ng-model="serving")
+          div.row(ng-show="isComponent()")
+            div.small-6.columns
+              label
+                span.nokkonenlabel amount
+                input(type="number", ng-model="totalAmount")
+            div.small-6.columns
+              label
+                span.nokkonenlabel unit
+                select(ng-model="totalUnit")
+                  option(value="g") g
+                  option(value="L") L
+                  option(value="cups") cups
+                  option(value="whole") whole
 
-      div.row
-        div.small-12.columns
-          label description
-            textarea.nokkonentextarea(placeholder="description", rows="3" ng-model="recipeCtrl.recipe.description")
-
-      div.row
-        div.small-12.columns
-          label preparation time
+        div.small-12.medium-6.columns
           div.row
             div.small-6.columns
-              label hours
-                input(type="number", value="0", ng-model="recipeCtrl.recipe.hours")
+              label
+                span.nokkonenlabel preparation hours
+                input(type="number", ng-model="hours")
             div.small-6.columns
-              label minutes
-                input(type="number", value="5", ng-model="recipeCtrl.recipe.minutes")
-
-      div.row(ng-controller="InstructionController as instructionCtrl")
-        div.small-12.columns
-          label instructions
-          button.button(type="button", ng-click="instructionCtrl.setTab(1)") basic
-          button.button(type="button", ng-click="instructionCtrl.setTab(2)") steps
-        div.small-12.columns(ng-show="instructionCtrl.isSet(1)")
-          textarea.nokkonentextarea(placeholder="instruction", rows="3")
-        div.small-12.columns(ng-show="instructionCtrl.isSet(2)")
-          span steps
-
+              label
+                span.nokkonenlabel preparation minutes
+                input(type="number", ng-model="minutes")
 
       div.row
         div.small-12.columns
-          button.button.success(type="button" ng-click="recipeCtrl.logRecipe()") Result
+          label
+            span.nokkonenlabel description
+            textarea.nokkonentextarea(rows="3" ng-model="description")
+
+      div.row
+          div.small-12.medium-6.columns
+            label
+              span.nokkonenlabel ingredients
+              div.row(ng-repeat="ingredient in ingredients track by $index")
+                div.small-9.columns
+                  span {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
+                div.small-3.columns
+                  button.button.warning.tiny(type="button", ng-click="removeIngredient($index)") x
+          div.small-12.medium-6.columns
+            label
+              span.nokkonenlabel new ingredient
+            div.row
+              div.small-6.columns
+                label amount
+                  input(type="number", ng-model="amount")
+              div.small-6.columns
+                label unit
+                  select(ng-model="unit")
+                    option(value="g") g
+                    option(value="L") L
+                    option(value="cups") cups
+                    option(value="whole") whole
+              div.small-12.columns
+                label ingredient
+                  input(type="text", ng-model="ingredient")
+                button.button(type="button", ng-class="{disabled:!ingredientIsValid()}", ng-click="addIngredient()") Add Ingredient
+
+      div.row
+        div.small-12.columns
+          label
+            span.nokkonenlabel instructions
+            div.nokkonenpanelbuttons
+              button.button(type="button", ng-click="setTab(1)", ng-class="{hollow:!isSet(1)}") basic
+              button.button(type="button", ng-click="setTab(2)", ng-class="{hollow:!isSet(2)}") steps
+        div.small-12.columns(ng-show="isSet(1)")
+          textarea.nokkonentextarea(placeholder="instruction", rows="3", ng-model="basicInstruction")
+        div.small-12.columns(ng-show="isSet(2)")
+          ol
+            li(ng-repeat="step in stepInstructions track by $index")
+              label Step
+                textarea.nokkonentextarea(placeholder="step instruction", rows="2", ng-model="stepInstructions[$index]")
+          button.button(type="button", ng-click="addStep()") add step
+          button.button(type="button", ng-click="removeLastStep()", ng-class="{disabled:stepsEmpty()}") remove last step
+
+      div.row
+        div.small-12.columns
+          button.button.success(type="button" ng-click="submitRecipe()" ng-class="{disabled:!isValid()}") Publish Recipe
