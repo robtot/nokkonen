@@ -1,11 +1,9 @@
 extends layout.jade
 
 block scripts
-  script(src="/angular/angular.js")
-  script(src="/js/newrecipeapp.js")
 
 block content
-  div(ng-app="NewRecipeApp" ng-controller="EditRecipeController as recipeCtrl")
+  div.ng-cloak(ng-controller="EditRecipeController as recipeCtrl")
     form(novalidate="novalidate")
 
       div.row
@@ -63,14 +61,6 @@ block content
       div.row
           div.small-12.medium-6.columns
             label
-              span.nokkonenlabel ingredients
-              div.row(ng-repeat="ingredient in ingredients track by $index")
-                div.small-9.columns
-                  span {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
-                div.small-3.columns
-                  button.button.warning.tiny(type="button", ng-click="removeIngredient($index)") x
-          div.small-12.medium-6.columns
-            label
               span.nokkonenlabel new ingredient
             div.row
               div.small-6.columns
@@ -87,6 +77,14 @@ block content
                 label ingredient
                   input(type="text", ng-model="ingredient")
                 button.button(type="button", ng-class="{disabled:!ingredientIsValid()}", ng-click="addIngredient()") Add Ingredient
+          div.small-12.medium-6.columns
+            label
+              span.nokkonenlabel ingredients
+              div.row(ng-repeat="ingredient in ingredients track by $index")
+                div.small-9.columns
+                  span {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
+                div.small-3.columns
+                  button.button.warning.tiny(type="button", ng-click="removeIngredient($index)") x
 
       div.row
         div.small-12.columns

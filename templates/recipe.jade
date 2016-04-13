@@ -1,11 +1,9 @@
 extends layout.jade
 
 block scripts
-  script(src="/angular/angular.js")
-  script(src="/js/recipeapp.js")
 
 block content
-  div(ng-app="RecipeApp" ng-init="recipe = #{recipe}")
+  div.ng-cloak(ng-init="recipe = #{recipe}")
     div(ng-controller="RecipeController as recipeCtrl")
       div.row
         div.small-12.columns.nokkonenheader

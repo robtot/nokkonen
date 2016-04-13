@@ -1,7 +1,6 @@
 (function() {
   var app = angular.module('RecipeApp', []);
   app.controller('RecipeController', ['$scope', function($scope) {
-    console.log($scope.recipe);
     this.instructionType = $scope.recipe.instructionType;
     this.instruction = $scope.recipe.instruction;
     if ($scope.recipe.type == "component") {
@@ -27,11 +26,37 @@
       $window.location.href = '/recipes/'+this.name;
     };
 
+    this.isEmpty = function() {
+      if (this.name == "") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
   }]);
 
   app.controller('RecipeListController', ['$window', function($window) {
     this.getRecipe = function(recipename, recipeowner) {
       $window.location.href = '/recipe/'+recipeowner+'/'+recipename;
+    };
+
+    this.recipesFound = function(recipes) {
+      if (recipes == null || recipes.length === 0) {
+        return false;
+      } else {
+        return true;
+      }
+
+    };
+
+    this.isTypeComponent = function(type) {
+      if (type == "component") {
+        return true;
+      } else {
+        return false;
+      }
+
     };
 
   }]);
@@ -185,5 +210,5 @@
     };
 
   }]);
-  
+
 })();
