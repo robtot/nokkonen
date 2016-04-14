@@ -11,7 +11,6 @@ var morgan = require('morgan');
 var app = express();
 var configDB = require('./config/database.js');
 var storage = require('./db/storage.js');
-var validate = require('./validate.js');
 
 mongoose.connect(configDB.url);
 
@@ -33,11 +32,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.get('/login', function(req, res) {
+app.get('/login', isNotLoggedIn, function(req, res) {
   res.render('landing', { message: req.flash('loginMessage') });
 });
 
-app.get('/signup', function(req, res) {
+app.get('/signup', isNotLoggedIn, function(req, res) {
   res.render('signup', { message: req.flash('signupMessage') });
 });
 
@@ -46,13 +45,13 @@ app.get('/logout', isLoggedIn, function(req, res) {
   res.redirect('/');
 });
 
-app.post('/signup', passport.authenticate('local-signup', {
+app.post('/signup', isNotLoggedIn, passport.authenticate('local-signup', {
   successRedirect: '/',
   failureRedirect: '/signup',
   failureFlash: true
 }));
 
-app.post('/login', passport.authenticate('local-login', {
+app.post('/login', isNotLoggedIn, passport.authenticate('local-login', {
   successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: true
@@ -60,7 +59,6 @@ app.post('/login', passport.authenticate('local-login', {
 
 //display recipe
 app.get('/recipe/:owner/:recipename', isLoggedIn, storage.getRecipe, function(req, res) {
-  console.log(req.recipe);
   if (req.recipe == null) {
     res.send("no recipe matching username "+req.params.owner+" and recipe name "+req.params.recipename+" found.");
   }
@@ -69,7 +67,14 @@ app.get('/recipe/:owner/:recipename', isLoggedIn, storage.getRecipe, function(re
 
 //create new recipe from json in body of post request
 app.post('/newrecipe', isLoggedIn, storage.addRecipe, function(req, res) {
-  res.send("recipe added");
+  if (req.result == "added") {
+    res.send("recipe added");
+  } else if (req.result == "exists"){
+    res.send("Unable to add recipe. Recipe already exists!");
+  } else {
+    res.send("Unable to add recipe. Recipe is incomplete!");
+  }
+
 });
 
 app.get('/', isLoggedIn, function(req, res) {
@@ -81,13 +86,12 @@ app.get('/newrecipe', isLoggedIn, function(req, res) {
   res.render('newrecipeform');
 });
 
-//query for recipes based on atrributes entered in get url
-app.get('/findrecipe', isLoggedIn, validate.recipeQuery, storage.searchRecipe, function(req, res) {
-  res.json(req.documents);
+app.get('/recipes/:name', isLoggedIn, storage.findRecipesByName, function(req, res) {
+  res.render('recipelist', { result: JSON.stringify(req.result) });
 });
 
-app.get('/recipes/:name', isLoggedIn, storage.getRecipesByName, function(req, res) {
-  
+app.get('/yourrecipes', isLoggedIn, storage.getYourRecipes, function(req, res) {
+  res.render('yourrecipes', { result: JSON.stringify(req.result) });
 });
 
 function isLoggedIn(req, res, next) {
@@ -96,6 +100,14 @@ function isLoggedIn(req, res, next) {
   }
 
   res.redirect('/login');
+}
+
+function isNotLoggedIn(req, res, next) {
+  if(!req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect('/');
 }
 
 app.listen(3000);
