@@ -24,7 +24,7 @@
     "karma-jasmine": "^0.3.8",
     "karma-phantomjs-launcher": "^1.0.0",
     "loadtest": "*",
-    "mongodb": "^2.1.10",
+    "mongodb": "^2.1.16",
     "mongoose": "^4.4.10",
     "morgan": "^1.7.0",
     "node-mocks-http": "^1.5.2",
