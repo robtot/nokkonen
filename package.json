@@ -1,8 +1,8 @@
 {
-  "name": "foundation-sites-template",
+  "name": "nokkonen",
   "version": "1.0.0",
-  "description": "Basic template for a new Foundation for Sites project.",
-  "main": "gulpfile.js",
+  "description": "A recipe sharing website.",
+  "main": "index.js",
   "devDependencies": {
     "angular": "^1.5.3",
     "angular-mocks": "^1.5.3",
@@ -34,22 +34,29 @@
     "unit.js": "^2.0.0",
     "loadtest": "*"
   },
-  "scripts": {
-    "start": "gulp",
-    "build": "gulp sass"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zurb/foundation-sites-template.git"
+    "url": "https://github.com/robtot/nokkonen.git"
   },
   "bugs": {
-    "url": "https://github.com/zurb/foundation-sites/issues",
-    "email": "foundation@zurb.com"
+    "email": "robert.rytovuori@gmail.com"
   },
-  "author": "ZURB <foundation@zurb.com>",
-  "license": "MIT",
+  "author": "Robert Rytovuori <robert.rytovuori@gmail.com>",
   "private": true,
   "dependencies": {
-    "gulp-autoprefixer": "^3.1.0"
+    "angular": "^1.5.3",
+    "angular-mocks": "^1.5.3",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "jade": "^1.11.0",
+    "mongodb": "^2.1.10",
+    "mongoose": "^4.4.10",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
   }
 }
