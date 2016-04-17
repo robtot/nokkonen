@@ -12,10 +12,10 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-load-plugins": "^1.1.0",
-    "gulp-sass": "^2.1.0",
+    "gulp-load-plugins": "^1.2.2",
+    "gulp-sass": "^2.2.0",
     "jade": "^1.11.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
@@ -23,6 +23,7 @@
     "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.8",
     "karma-phantomjs-launcher": "^1.0.0",
+    "loadtest": "*",
     "mongodb": "^2.1.10",
     "mongoose": "^4.4.10",
     "morgan": "^1.7.0",
@@ -31,8 +32,7 @@
     "passport-local": "^1.0.0",
     "phantomjs": "^2.1.7",
     "phantomjs-prebuilt": "^2.1.7",
-    "unit.js": "^2.0.0",
-    "loadtest": "*"
+    "unit.js": "^2.0.0"
   },
   "scripts": {
     "start": "gulp",
